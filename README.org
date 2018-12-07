@@ -1,0 +1,33 @@
+* Using kubernetes for local/ci testing
+
+** Usage
+If you are using this in a Linux box the only prerequisite is =nix=
+#+begin_src sh
+nix-shell --run ./run.sh
+#+end_src
+
+On OSX you'd have to use this is a live media with =Qemu=
+To build the live media you need access to a linux box, either locally or as a remote builder
+#+begin_src sh
+nix-shell --run "nix-build '<nixpkgs/nixos>' -A config.system.build.isoImage -I nixos-config=iso.nix --show-trace"
+TODO: Figure out exact command to run live media (extract from run.sh)
+#+end_src
+
+** How this interacts with the host
+We use Qemu user-mode networking to forward ports running inside the guest to the host
+
+** How this differs from other kubernetes setups
+Thanks to Nix/NixOS we can flexibly deploy this in a few different ways:
+**** Using a shared /nix/store with the host
+**** Live media
+**** Inside a container
+
+It can run unprivileged inside build sandboxes
+Unlike other solutions like Minikube this does not require libvirtd
+
+** Potential disadvantages
+*** No shared docker cache with the host
+Can of course be figured out but it's not yet implemented
+*** Requires Nix adoption
+With the live-media and/or container approaches this is not entirely true
+At the very least requires nix at build-time

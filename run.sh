@@ -24,4 +24,4 @@ if ! test -e "$NIX_DISK_IMAGE"; then
     qemu-img create -f qcow2 "$NIX_DISK_IMAGE" "${DISK_IMAGE_SIZE}M"
 fi
 
-$output_path/bin/run-localhost-vm
+$output_path/bin/run-nixiekube-vm
